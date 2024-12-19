@@ -1,0 +1,22 @@
+import requests
+from bs4 import BeautifulSoup
+
+def iegut_datus(no_url):
+    atbilde = requests.get(no_url)
+    if atbilde.status_code == 200:  # Pārbauda, vai savienojums bija veiksmīgs
+        lapas_saturu = atbilde.text
+        soup = BeautifulSoup(lapas_saturu, 'html.parser')
+
+        virsraksti = soup.find_all('h2')
+        dati = [virsraksts.text for virsraksts in virsraksti]
+
+        return dati
+    else:
+        print("Neizdevās savienoties ar mājaslapu.")
+        return []
+
+url = "https://example.com"  # Aizstāj ar reālu mājaslapas adresi
+virsraksti = iegut_datus(url)
+print("Rakstu virsraksti:")
+for virsraksts in virsraksti:
+    print("-", virsraksts)
